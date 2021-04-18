@@ -1,0 +1,24 @@
+﻿<Application x:Class="LABA1_MM.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <LinearGradientBrush x:Key="BackgroundWindowResource">
+            <GradientStop Offset="0.00" Color="Red"></GradientStop>
+            <GradientStop Offset="0.50" Color="AliceBlue"></GradientStop>
+            <GradientStop Offset="1.00" Color="SkyBlue"></GradientStop>
+        </LinearGradientBrush>
+
+        <Style x:Key="errorStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="2"></Setter>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="Red"></Setter>
+                    <Setter Property="BorderThickness" Value="1"></Setter>
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, 
+                        Path=(Validation.Errors)[0].ErrorContent}"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+</Application>

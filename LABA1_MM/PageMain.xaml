@@ -1,0 +1,35 @@
+﻿<Page x:Class="LABA1_MM.Pages.PageMain"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	Title="PageMain">
+
+    <StackPanel Background="{StaticResource BackgroundWindowResource}">
+        <TextBlock Margin="25,30,25,5" FontSize="20">
+            Система внутреннего учета инвестиционной компании
+        </TextBlock>
+        <TextBlock Margin="25,30,5,5">
+            <Hyperlink NavigateUri="PageEmployee.xaml">Сотрудники</Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="25,0,5,5">
+            <Hyperlink NavigateUri="PageCustomers.xaml">Клиенты</Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="25,0,5,5">
+            <Hyperlink NavigateUri="PageDogovora.xaml">Договора</Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="25,0,5,5">
+            <Hyperlink NavigateUri="PagePaper.xaml">Ценные бумаги</Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="25,0,5,5">
+            <Hyperlink NavigateUri="PageTransactions.xaml">Сделки</Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="25,0,5,5">
+            <Hyperlink NavigateUri="PageSpravka.xaml">Справка</Hyperlink>
+        </TextBlock>
+        <Button Margin="25,15" Width="60" HorizontalAlignment="Left" Command="Close">Выход</Button>
+        
+    </StackPanel>
+</Page>
