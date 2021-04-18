@@ -75,13 +75,15 @@ namespace LABA1_MM
         private void CommandBinding_CanExecute_2(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = !isDirty;
+            DataEntitiesEmployee.SaveChanges();
+            isDirty = true;
+            DataGridEmployee.IsReadOnly = true;
         }
 
         private void CommandBinding_Executed_3(object sender, ExecutedRoutedEventArgs e)
         {
-            DataEntitiesEmployee.SaveChanges();
-            isDirty = true;
-            DataGridEmployee.IsReadOnly = true;
+            BorderFind.Visibility = System.Windows.Visibility.Visible;
+            isDirty = false;
         }
 
         private void CommandBinding_CanExecute_3(object sender, CanExecuteRoutedEventArgs e)
@@ -150,6 +152,72 @@ namespace LABA1_MM
             DataEntitiesEmployee = new LabaEmployee_MMEntities();
             ListEmployee.Clear();
             GetEmployee();
+        }
+
+        private void TextBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ButtonFindSurname.IsEnabled = true;
+            ButtonFindTitle.IsEnabled = false;
+            ComboBoxTitle.SelectedIndex = -1;
+        }
+
+        private void ButtonFindSurname_Click(object sender, RoutedEventArgs e)
+        {
+            string surname = TextBoxSurname.Text;
+            DataEntitiesEmployee = new LabaEmployee_MMEntities();
+            ListEmployee.Clear();
+            var employees = DataEntitiesEmployee.Employees;
+            var queryEmployee = from employee in employees
+                                where employee.Surname == surname
+                                select employee;
+            foreach(Employee emp in queryEmployee)
+            {
+                ListEmployee.Add(emp);
+            }
+            if (ListEmployee.Count > 0)
+            {
+                DataGridEmployee.ItemsSource = ListEmployee;
+                ButtonFindSurname.IsEnabled = true;
+                ButtonFindTitle.IsEnabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Сотрудник с фамилией \n" + surname + "\n не найден",
+                    "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void ComboBoxTitle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ButtonFindTitle.IsEnabled = true;
+            ButtonFindSurname.IsEnabled = false;
+            TextBoxSurname.Text = "";
+        }
+
+        private void ButtonFindTitle_Click(object sender, RoutedEventArgs e)
+        {
+            DataEntitiesEmployee = new LabaEmployee_MMEntities();
+            ListEmployee.Clear();
+
+            Title title = ComboBoxTitle.SelectedItem as Title;
+            var employees = DataEntitiesEmployee.Employees;
+            var queryEmployee = from employee in employees
+                                where employee.TitleID == title.ID
+                                orderby employee.Surname
+                                select employee;
+            foreach (Employee emp in queryEmployee)
+            {
+                ListEmployee.Add(emp);
+            }
+                DataGridEmployee.ItemsSource = ListEmployee;
+        }
+
+        private void CommandBinding_Executed_6(object sender, ExecutedRoutedEventArgs e)
+        {
+            RewriteEmployee();
+            DataGridEmployee.IsReadOnly = true;
+            isDirty = true;
+            BorderFind.Visibility = System.Windows.Visibility.Hidden;
         }
     }
 }

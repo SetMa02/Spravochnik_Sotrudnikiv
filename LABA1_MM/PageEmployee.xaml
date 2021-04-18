@@ -8,10 +8,10 @@
       xmlns:command ="clr-namespace:LABA1_MM.Commands"
       mc:Ignorable="d" 
       Loaded="Page_Loaded"
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="400" d:DesignWidth="800"
 	Title="PageEmployee">
 
-    <Page.CommandBindings>
+        <Page.CommandBindings>
         <CommandBinding Command="Undo" Executed="CommandBinding_Executed"
                         CanExecute="CommandBinding_CanExecute"/>
 
@@ -29,6 +29,7 @@
 
         <CommandBinding Command="{x:Static command:DataCommands.Delete}"
                         Executed="CommandBinding_Executed_5" CanExecute="CommandBinding_CanExecute_5"></CommandBinding>
+        <CommandBinding Command="Refresh" Executed="CommandBinding_Executed_6"></CommandBinding>
     </Page.CommandBindings>
 
 
@@ -45,11 +46,13 @@
 
     </Page.Resources>
 
+
     <StackPanel Margin="3" Background="{StaticResource BackgroundWindowResource}">
         <Menu>
             <MenuItem Header="Действие">
                 <MenuItem Header="Отменить" Command="Undo"></MenuItem>
                 <Separator></Separator>
+                <MenuItem Header="Обновить" Command="Refresh"/>
                 <MenuItem Header="Создать" Command="New"></MenuItem>
                 <MenuItem Header="Редактировать" Command="command:DataCommands.Edit"></MenuItem>
                 <MenuItem Header="Сохранить" Command="Save"></MenuItem>
@@ -64,6 +67,11 @@
             <Button Name="btnUndo" Command="Undo" ToolTip="отменит редиктирование/создание" Margin="5,2,5,2">
                 <Image Source="Images/Undo.png"></Image>
             </Button>
+            <Button Name="Refresh" Margin="5,2,5,2"  Command="Refresh"
+        ToolTip="обновить данные по сотрудникам">
+                <TextBlock>Обновить</TextBlock>
+            </Button>
+
 
             <Button Name="btnAdd" Command="New" ToolTip="Добавить сотрудника" Margin="5,2,5,2">
                 <Image Source="Images/Add.png"></Image>
@@ -82,9 +90,10 @@
             </Button>
         </ToolBar>
         <TextBlock Margin="5">Список сотрудников</TextBlock>
+        <StackPanel Orientation="Horizontal">
         <DataGrid Name="DataGridEmployee" AutoGenerateColumns="False" ItemsSource="{Binding}" HorizontalAlignment="Left"
                   MaxWidth="1000" MaxHeight="295" RowBackground="#FFE6D3EF" AlternatingRowBackground="#FC96CFD3"
-                  BorderBrush="#FFC2B4" BorderThickness="3" RowHeight="25" Cursor="Hand" CanUserAddRows="False" CanUserDeleteRows="False" Width="985">
+                  BorderBrush="#FFC2B4" BorderThickness="3" RowHeight="25" Cursor="Hand" CanUserAddRows="False" CanUserDeleteRows="False" Width="600">
             <DataGrid.RowValidationErrorTemplate>
                 <ControlTemplate>
                     <Grid Margin="0,-2,0,-2" ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}},
@@ -125,5 +134,28 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+            <Border x:Name="BorderFind" Background="{StaticResource BackgroundWindowResource}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" Orientation="Vertical">
+                <TextBlock FontWeight="Bold" Margin="70,0,0,5" Text="Поиск"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Name="TextBlockSurname" Margin="5,5,8,5" Text="Фамилия" />
+                        <TextBox Name="TextBoxSurname" Width="90" Margin="5,5,0,5" TextChanged="TextBoxSurname_TextChanged" />
+                    <Button Margin="5" Name="ButtonFindSurname" ToolTip="Поиск по фамилии" IsEnabled="False" Click="ButtonFindSurname_Click">
+                        <Image Source="Images/Find.png"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Name="TextBlockTitle" Text="Должность" Margin="5,5,0,5"/>
+                    <ComboBox Width="90" Name="ComboBoxTitle"  Margin="3,5,0,5" ItemsSource="{Binding Source={StaticResource listTitle}}"
+                                DisplayMemberPath="Title1" SelectionChanged="ComboBoxTitle_SelectionChanged" />
+                    <Button Name="ButtonFindTitle" Margin="5" ToolTip="Поиск по должности" IsEnabled="False" Click="ButtonFindTitle_Click" RenderTransformOrigin="0,0.043">
+                        <Image Source="Images/Find.png" RenderTransformOrigin="-0.368,-0.263" />
+                    </Button>
+
+
+                </StackPanel>
+            </StackPanel>
+            </Border>
+        </StackPanel>
     </StackPanel>
 </Page>
